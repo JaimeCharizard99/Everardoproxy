@@ -8,6 +8,7 @@ variables:
     SERVICE_ACCOUNT_EMAIL: "sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
 
 image: maven:latest
+
 # GCP_SERVICE_ACCOUNT is stored in Gitlab CI/CD variable settings
 # GCP_SERVICE_ACCOUNT variable, type file :O
 
@@ -18,32 +19,10 @@ cache:
         - /node_modules/
 
 stages:
-    - auth
     - install-dependencies
     - deploy
 
 #get token
-auth:
-    stage: auth
-    image: "google/cloud-sdk:slim"
-    id_tokens:
-        GITLAB_OIDC_TOKEN:
-            aud: https://iam.googleapis.com/projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2
-    script:
-        - |
-            echo "$GITLAB_OIDC_TOKEN" > token.txt
-            gcloud iam workload-identity-pools create-cred-config \
-            projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2 \
-            --service-account=sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com \
-            --service-account-token-lifetime-seconds=3600 \
-            --output-file=$CI_PROJECT_DIR/credentials.json \
-            --credential-source-file=token.txt
-        - "gcloud config set project $GOOGLE_CLOUD_PROJECT"
-        - "gcloud config set account $SERVICE_ACCOUNT_EMAIL"
-        - "export GOOGLE_APPLICATION_CREDENTIALS=$CI_PROJECT_DIR/credentials.json"
-        - "gcloud auth login --cred-file=$CI_PROJECT_DIR/credentials.json"
-        - "export TOKEN=$(gcloud auth print-access-token)"
-        - "echo $TOKEN"
 
 
 # install dependencies
@@ -76,4 +55,4 @@ mvn-deploy-proxy:
         - ls
         - echo $APIGEE_ENV
         - echo $GOOGLE_CLOUD_PROJECT
-        - mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dtoken=$TOKEN -Dorg=$GOOGLE_CLOUD_PROJECT
+        - mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dorg=$GOOGLE_CLOUD_PROJECT -Dtoken=$TOKEN
