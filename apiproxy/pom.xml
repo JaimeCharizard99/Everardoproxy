@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.gcloudapigee</groupId>
+    <artifactId>clientes-v1</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>clientes-v1</name>
+    <packaging>pom</packaging>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Plugin Repository</name>
+            <url>https://repo1.maven.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    <properties>
+        <main.basedir>${project.basedir}</main.basedir>
+    </properties>
+    <build>
+        <plugins>          
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <encoding>UTF-8</encoding>
+                            <echo message="basedir parent : ${basedir}" />
+                            <outputDirectory>${basedir}/target/apiproxy</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>apiproxy</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                 </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <!-- This is where you add the environment specific properties under various profile names -->
+    <profiles>
+       <profile>
+            <id>googleapi</id>
+            <properties>
+                <apigee.profile>googleapi</apigee.profile>
+                <apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.org>{org}</apigee.org>
+                <apigee.env>{env}</apigee.env>
+                <apigee.username>{username}</apigee.username>
+                <apigee.authtype>oauth</apigee.authtype> <!-- only option -->
+                <apigee.bearer>${token}</apigee.bearer> <!-- this takes precedence over service account file -->
+               <!-- <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>-->
+                 <apigee.options>${options}</apigee.options> <!-- override is default. Other options are async|clean-->
+                <apigee.googletoken.email>${googleTokenEmail}</apigee.googletoken.email> <!-- Available in Apigee X and Apigee hybrid 1.6 + -->
+            </properties>
+        </profile>
+        <profile>
+           <id>test</id>
+            <properties>
+                <apigee.profile>test</apigee.profile>
+                <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.org>eminent-yen-408716</apigee.org>
+                <apigee.env>eval</apigee.env>
+                <apigee.username>${username}</apigee.username>
+                <apigee.options>${options}</apigee.options>
+                <apigee.revision>${revision}</apigee.revision>           
+            </properties>
+        </profile>        
+        <profile>
+            <id>deployonly</id>
+            <build>
+                <plugins>
+                <plugin>
+                    <groupId>io.apigee.build-tools.enterprise4g</groupId>
+                    <artifactId>apigee-edge-maven-plugin</artifactId>
+                    <version>2.3.0</version>
+                    <executions>
+                        <execution>
+                            <id>configure-bundle</id>
+                            <phase>package</phase>
+                            <goals>
+                            <goal>configure</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>deploy-bundle</id>
+                            <phase>install</phase>
+                            <goals>
+                            <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>  
+                </plugins>
+            </build>
+        </profile>        
+    </profiles>
+</project>

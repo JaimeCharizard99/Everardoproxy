@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>EV-getNameQueryParam</Name>
+            </Step>
+        </Request>
+        <Response>
+            <Step>
+                <Name>AM-ResponsePayload</Name>
+            </Step>
+        </Response>
+    </PreFlow>
+    <Flows>
+        <Flow name="users">
+            <Description>Calling a dummy endpoint</Description>
+            <Request>
+                <Step>
+                    <Name>SC-jsonplaceholcer-users</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>AM-SetUserResponsePayload</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/users") and (request.verb = "GET")</Condition>
+        </Flow>
+    </Flows>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Condition>request.header.Accept == "application/xml"</Condition>
+                <Name>J2X-Convert</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    <HTTPProxyConnection>
+        <BasePath>/everardoproxy</BasePath>
+    </HTTPProxyConnection>
+    <RouteRule name="noroute"/>
+</ProxyEndpoint>

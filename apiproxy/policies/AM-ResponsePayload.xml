@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="AM-ResponsePayload">
+    <AssignVariable>
+        <Name>toolName</Name>
+        <Value>Apigee</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>vName</Name>
+        <Value>Apigeek friend</Value>
+        <Ref>queryParam.name</Ref>
+    </AssignVariable>
+    <Set>
+        <Payload contentType="application/json">{
+    "message":"Hi {vName}!, Welcome to {toolName}'s world"
+}</Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>
