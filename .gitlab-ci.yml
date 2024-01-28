@@ -6,7 +6,7 @@ variables:
     GOOGLE_CLOUD_PROJECT: $GOOGLE_CLOUD_PROJECT
     GOOGLE_CLOUD_PROJECT_NUMBER: $GOOGLE_CLOUD_PROJECT_NUMBER
     SERVICE_ACCOUNT_EMAIL: "sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
-    CHILD_PIPELINE_EXECUTION_CONTEXT: "/"
+    CHILD_PIPELINE_EXECUTION_CONTEXT: "apiproxy"
 
 image: maven:latest
 # GCP_SERVICE_ACCOUNT is stored in Gitlab CI/CD variable settings
@@ -23,6 +23,7 @@ before_script:
     - pwd
     - ls
     - cd $CHILD_PIPELINE_EXECUTION_CONTEXT
+    - pwd
     - ls
 
 stages:
@@ -36,12 +37,12 @@ auth:
     image: "google/cloud-sdk:slim"
     id_tokens:
         GITLAB_OIDC_TOKEN:
-            aud: https://iam.googleapis.com/projects/$GOOGLE_CLOUD_PROJECT_NUMBER/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2
+            aud: https://iam.googleapis.com/projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2
     script:
         - |
             echo "$GITLAB_OIDC_TOKEN" > token.txt
             gcloud iam workload-identity-pools create-cred-config \
-            projects/$GOOGLE_CLOUD_PROJECT_NUMBER/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2 \
+            projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2 \
             --service-account=sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com \
             --service-account-token-lifetime-seconds=3600 \
             --output-file=$CI_PROJECT_DIR/credentials.json \
@@ -52,6 +53,7 @@ auth:
         - "gcloud auth login --cred-file=$CI_PROJECT_DIR/credentials.json"
         - "export TOKEN=$(gcloud auth print-access-token)"
         - "echo $TOKEN"
+
 
 # install dependencies
 install-dependencies:
