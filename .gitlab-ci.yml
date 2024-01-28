@@ -6,7 +6,6 @@ variables:
     GOOGLE_CLOUD_PROJECT: $GOOGLE_CLOUD_PROJECT
     GOOGLE_CLOUD_PROJECT_NUMBER: $GOOGLE_CLOUD_PROJECT_NUMBER
     SERVICE_ACCOUNT_EMAIL: "sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
-    CHILD_PIPELINE_EXECUTION_CONTEXT: "apiproxy"
 
 image: maven:latest
 # GCP_SERVICE_ACCOUNT is stored in Gitlab CI/CD variable settings
@@ -14,17 +13,9 @@ image: maven:latest
 
 cache:
     paths:
-        - $CHILD_PIPELINE_EXECUTION_CONTEXT/.m2/repository/
-        - $CHILD_PIPELINE_EXECUTION_CONTEXT/target/
-        - $CHILD_PIPELINE_EXECUTION_CONTEXT/node_modules/
-
-before_script:
-    - "echo Running child pipeline in subdirectory: $CHILD_PIPELINE_EXECUTION_CONTEXT"
-    - pwd
-    - ls
-    - cd $CHILD_PIPELINE_EXECUTION_CONTEXT
-    - pwd
-    - ls
+        - .m2/repository/
+        - /target/
+        - /node_modules/
 
 stages:
     - auth
