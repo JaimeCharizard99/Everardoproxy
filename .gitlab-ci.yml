@@ -6,6 +6,7 @@ variables:
     GOOGLE_CLOUD_PROJECT: $GOOGLE_CLOUD_PROJECT
     GOOGLE_CLOUD_PROJECT_NUMBER: $GOOGLE_CLOUD_PROJECT_NUMBER
     SERVICE_ACCOUNT_EMAIL: "sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
+    CHILD_PIPELINE_EXECUTION_CONTEXT: "apiProxy"
 
 image: maven:latest
 # GCP_SERVICE_ACCOUNT is stored in Gitlab CI/CD variable settings
@@ -32,12 +33,12 @@ auth:
     image: "google/cloud-sdk:slim"
     id_tokens:
         GITLAB_OIDC_TOKEN:
-            aud: https://iam.googleapis.com/projects/$GOOGLE_CLOUD_PROJECT_NUMBER/locations/global/workloadIdentityPools/gitlab/providers/gitlab
+            aud: https://iam.googleapis.com/projects/$GOOGLE_CLOUD_PROJECT_NUMBER/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2
     script:
         - |
             echo "$GITLAB_OIDC_TOKEN" > token.txt
             gcloud iam workload-identity-pools create-cred-config \
-            projects/$GOOGLE_CLOUD_PROJECT_NUMBER/locations/global/workloadIdentityPools/gitlab/providers/gitlab \
+            projects/$GOOGLE_CLOUD_PROJECT_NUMBER/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2 \
             --service-account=sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com \
             --service-account-token-lifetime-seconds=3600 \
             --output-file=$CI_PROJECT_DIR/credentials.json \
@@ -69,10 +70,10 @@ mvn-config:
     stage: deploy
     needs: ["mvn-package"]
     script:
-        - mvn apigee-enterprise:configure -Pgoogleapi -Dorg=$APIGEE_ORG -Denv=$APIGEE_ENV -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX
+        - mvn apigee-enterprise:configure -Pgoogleapi -Dorg=$GOOGLE_CLOUD_PROJECT -Denv=$APIGEE_ENV -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX
 
 mvn-deploy-proxy:
     stage: deploy
     needs: ["mvn-config"]
     script:
-        - mvn apigee-enterprise:deploy -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dtoken=$TOKEN -Dorg=$APIGEE_ORG -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX
+        - mvn apigee-enterprise:deploy -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dtoken=$TOKEN -Dorg=$GOOGLE_CLOUD_PROJECT -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX
