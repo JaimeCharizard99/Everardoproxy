@@ -20,19 +20,39 @@ cache:
 
 stages:
     - install-dependencies
+    - setup
     - deploy
 
-#get token
+#get token from Service Account
+auth:
+  stage: auth
+  image: "google/cloud-sdk:slim"
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://iam.googleapis.com/projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2
+  script:
+    - |
+        echo "$GITLAB_OIDC_TOKEN" > token.txt
+        gcloud iam workload-identity-pools create-cred-config \
+        projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2 \
+        --service-account=$GCP_SERVICE_ACCCOUNT \
+        --service-account-token-lifetime-seconds=3600 \
+        --output-file=$CI_PROJECT_DIR/credentials.json \
+        --credential-source-file=token.txt
+    - "gcloud config set project toc-apigee-test-prj-e8a7"
+    - "gcloud config set account sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
+    - "export GOOGLE_APPLICATION_CREDENTIALS=$CI_PROJECT_DIR/credentials.json"
+    - "gcloud auth login --cred-file=$CI_PROJECT_DIR/credentials.json"
+    - "export TOKEN=$(gcloud auth print-access-token)"
+    - "echo $TOKEN"
 
 
 # install dependencies
-install-dependencies:
-    stage: install-dependencies
-    image: node:12-alpine
-    script:
-        - npm install --silent --no-fund
-        - pwd
-        - ls
+#install-dependencies:
+#    stage: install-dependencies
+#    image: node:12-alpine
+#    script:
+#        - npm install --silent --no-fund
 
 # Deploy Proxy
 mvn-package:
