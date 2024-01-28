@@ -81,6 +81,8 @@ mvn-deploy-proxy:
     stage: deploy
     needs: ["mvn-package"]
     script:
+        - pwd
+        - ls
         - echo $APIGEE_ENV
         - echo $GOOGLE_CLOUD_PROJECT
-        - mvn apigee-enterprise:deploy -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dtoken=$TOKEN -Dorg=$GOOGLE_CLOUD_PROJECT
+        - mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dtoken=$TOKEN -Dorg=$GOOGLE_CLOUD_PROJECT
