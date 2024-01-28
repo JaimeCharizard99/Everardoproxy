@@ -19,8 +19,8 @@ cache:
         - /node_modules/
 
 stages:
+    - auth
     - install-dependencies
-    - setup
     - deploy
 
 #get token from Service Account
@@ -48,11 +48,11 @@ auth:
 
 
 # install dependencies
-#install-dependencies:
-#    stage: install-dependencies
-#    image: node:12-alpine
-#    script:
-#        - npm install --silent --no-fund
+install-dependencies:
+    stage: install-dependencies
+    image: node:12-alpine
+    script:
+        - npm install --silent --no-fund
 
 # Deploy Proxy
 mvn-package:
