@@ -68,7 +68,7 @@ install-dependencies:
 mvn-package:
     stage: deploy
     script:
-        - if [ "$AUTHOR_EMAIL" == ""]; then AUTHOR_EMAIL="$GITLAB_USER_EMAIL"; fi
+        - if [ "$AUTHOR_EMAIL" == "" ]; then AUTHOR_EMAIL="$GITLAB_USER_EMAIL"; fi
         - mvn process-resources -Pgoogleapi -Dcommit=$GIT_COMMIT -Dbranch=$GIT_BRNACH -Dauthor=$AUTHOR_EMAIL
 
 mvn-config:
