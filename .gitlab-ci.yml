@@ -39,13 +39,12 @@ auth:
         --service-account-token-lifetime-seconds=3600 \
         --output-file=$CI_PROJECT_DIR/credentials.json \
         --credential-source-file=token.txt
+    - "gcloud config set project bjuarezintacademy"
+    - "gcloud config set account sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
     - "export GOOGLE_APPLICATION_CREDENTIALS=$CI_PROJECT_DIR/credentials.json"
     - "gcloud auth login --cred-file=$CI_PROJECT_DIR/credentials.json"
     - "gcloud auth print-access-token"
-    - "gcloud config set project bjuarezintacademy"
-    - "gcloud config set account sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com"
-    - "export TOKEN=$(gcloud auth print-access-token)"
-    - "echo $TOKEN"
+    
 
 
 # install dependencies
