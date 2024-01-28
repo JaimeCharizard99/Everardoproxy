@@ -35,7 +35,7 @@ auth:
         echo "$GITLAB_OIDC_TOKEN" > token.txt
         gcloud iam workload-identity-pools create-cred-config \
         projects/863898251517/locations/global/workloadIdentityPools/gitlab2/providers/gitlab2 \
-        --service-account=$GCP_SERVICE_ACCCOUNT \
+        --service-account=sa-gitlab-pipeline@bjuarezintacademy.iam.gserviceaccount.com \
         --service-account-token-lifetime-seconds=3600 \
         --output-file=$CI_PROJECT_DIR/credentials.json \
         --credential-source-file=token.txt
