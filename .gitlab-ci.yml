@@ -4,18 +4,15 @@ stages:
     - auth
     - deploy
 
-.before_setup:
+#get token
+get-token:
+  stage: auth
+  image: "google/cloud-sdk:latest"
   before_script:
     # Authenticate Google Cloud Service Account
     - export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GCP_SA_CRED)
     - echo ${GOOGLE_APPLICATION_CREDENTIALS} > creds.json
     - export GOOGLE_APPLICATION_CREDENTIALS=creds.json
-
-#get token
-get-token:
-  stage: auth
-  extends: .before_setup
-  image: "google/cloud-sdk:latest"
   script:
     - "gcloud config set project $GCP_PROJECT_ID"
     - "gcloud config set account $GCP_SA"
