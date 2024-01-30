@@ -62,8 +62,8 @@
                 <apigee.profile>googleapi</apigee.profile>
                 <apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
                 <apigee.apiversion>v1</apigee.apiversion>
-                <apigee.org>{org}</apigee.org>
-                <apigee.env>{env}</apigee.env>
+                <apigee.org>bjuarezintacademy</apigee.org>
+                <apigee.env>eval</apigee.env>
                 <apigee.authtype>oauth</apigee.authtype> <!-- only option -->
                 <apigee.bearer>${token}</apigee.bearer> <!-- this takes precedence over service account file -->
                <!-- <apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>-->

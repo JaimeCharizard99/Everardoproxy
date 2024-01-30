@@ -4,12 +4,6 @@ stages:
     - auth
     - deploy
 
-cache:
-    paths:
-        - .m2/repository/
-        - target/
-        - node_modules/
-
 .before_setup:
   before_script:
     # Authenticate Google Cloud Service Account
