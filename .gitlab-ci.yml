@@ -4,6 +4,9 @@ stages:
     - auth
     - deploy
 
+variables:
+  TOKEN: dummyvalue
+
 cache:
     paths:
         - .m2/repository/
