@@ -28,7 +28,7 @@ get-token:
     - "gcloud auth login --cred-file=creds.json"
     - "export TOKEN=$(gcloud auth print-access-token)"
     - "echo $TOKEN"
-    - "curl --request PUT --header "PRIVATE-TOKEN: $API_PAT" "https://gitlab.com/api/v4/projects/54316165/variables/TOKEN" --form "value=$TOKEN""
+    - curl --request PUT --header "PRIVATE-TOKEN: $API_PAT" "https://gitlab.com/api/v4/projects/54316165/variables/TOKEN" --form "value=$TOKEN"
 
 # Deploy Proxy
 mvn-deploy-proxy:
