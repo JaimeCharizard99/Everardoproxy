@@ -1,7 +1,7 @@
 image: maven:latest
 
 stages:
-    - gcp-authenticate
+    - auth
     - deploy
 
 # Get token
@@ -20,6 +20,7 @@ stages:
 
 
 gcp-authenticate:
+  stage: auth
   extends: [.refresh-token]
   script:
     - "echo Token Generated Successfully"
