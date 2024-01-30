@@ -6,7 +6,6 @@ stages:
 
 # Get token
 .refresh-token:
-  stage: auth
   image: "google/cloud-sdk:latest"
   before_script:
     # Auth GCP with Service Account
