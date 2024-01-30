@@ -21,7 +21,6 @@ get-token:
     - "gcloud config set account $GCP_SA"
     - "gcloud auth login --cred-file=creds.json"
     - "export TOKEN=$(gcloud auth print-access-token)"
-    - "echo $TOKEN"
     - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/TOKEN --form value=$TOKEN"
 
 # Deploy Proxy
@@ -29,7 +28,4 @@ mvn-deploy-proxy:
     stage: deploy
     needs: ["get-token"]
     script:
-        - "echo $TOKEN"
-        - "echo $APIGEE_ENV"
-        - "echo $GCP_PROJECT_ID"
-        - "mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dorg=$GCP_PROJECT_ID -Dtoken=$TOKEN"
+        - "mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -DproxyName=$PROXY_NAME -Denv=$APIGEE_ENV -Dorg=$GCP_PROJECT_ID -Dtoken=$TOKEN"
