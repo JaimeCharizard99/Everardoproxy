@@ -1,15 +1,15 @@
 image: maven:latest
 
 stages:
-    - auth
+    - gcp-authenticate
     - deploy
 
-#get token
+# Get token
 .refresh-token:
   stage: auth
   image: "google/cloud-sdk:latest"
   before_script:
-    # Authenticate Google Cloud Service Account
+    # Auth GCP with Service Account
     - export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GCP_SA_CRED)
     - echo ${GOOGLE_APPLICATION_CREDENTIALS} > creds.json
     - export GOOGLE_APPLICATION_CREDENTIALS=creds.json
