@@ -5,9 +5,10 @@ stages:
     - deploy
 
 # Get token
-.refresh-token:
+gcp-authenticate:
+  stage: auth
   image: "google/cloud-sdk:latest"
-  before_script:
+  script:
     # Auth GCP with Service Account
     - export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GCP_SA_CRED)
     - echo ${GOOGLE_APPLICATION_CREDENTIALS} > creds.json
@@ -16,15 +17,8 @@ stages:
     - "gcloud config set account $GCP_SA"
     - "gcloud auth login --cred-file=creds.json"
     - "export TOKEN=$(gcloud auth print-access-token)"
-    - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/TOKEN --form value=$TOKEN"
-
-
-gcp-authenticate:
-  stage: auth
-  extends: [.refresh-token]
-  script:
+    - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/TOKEN --form value=$TOKEN > response.json"
     - "echo Token Generated Successfully"
-
 
 # Deploy Proxy
 mvn-deploy-proxy:
