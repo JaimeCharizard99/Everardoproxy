@@ -35,4 +35,5 @@ mvn-deploy-proxy:
     stage: deploy
     needs: ["get-token"]
     script:
+        - "echo $TOKEN"
         - mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -Denv=$APIGEE_ENV -Dorg=$GCP_PROJECT_ID -Dtoken=$TOKEN
