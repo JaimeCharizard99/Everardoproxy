@@ -4,9 +4,6 @@ stages:
     - auth
     - deploy
 
-variables:
-  TOKEN: dummyvalue
-
 cache:
     paths:
         - .m2/repository/
@@ -15,7 +12,7 @@ cache:
 
 .before_setup:
   before_script:
-    # Authenticate Google Cloud service account
+    # Authenticate Google Cloud Service Account
     - export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GCP_SA_CRED)
     - echo ${GOOGLE_APPLICATION_CREDENTIALS} > creds.json
     - export GOOGLE_APPLICATION_CREDENTIALS=creds.json
@@ -31,6 +28,7 @@ get-token:
     - "gcloud auth login --cred-file=creds.json"
     - "export TOKEN=$(gcloud auth print-access-token)"
     - "echo $TOKEN"
+    - "curl --request PUT --header "PRIVATE-TOKEN: $API_PAT" "https://gitlab.com/api/v4/projects/54316165/variables/TOKEN" --form "value=$TOKEN""
 
 # Deploy Proxy
 mvn-deploy-proxy:
