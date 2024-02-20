@@ -33,6 +33,6 @@ test:
 # Deploy Proxy
 mvn-deploy-proxy:
     stage: deploy
-    needs: ["gcp-authenticate"]
+    needs: ["test","gcp-authenticate"]
     script:
         - "mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -DproxyName=$PROXY_NAME -Denv=$APIGEE_ENV -Dorg=$GCP_PROJECT_ID -Dtoken=$TOKEN"
