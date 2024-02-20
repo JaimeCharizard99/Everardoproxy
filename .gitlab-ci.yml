@@ -2,6 +2,7 @@ image: maven:latest
 
 stages:
     - auth
+    - test
     - deploy
 
 # Get token
@@ -19,6 +20,15 @@ gcp-authenticate:
     - "export TOKEN=$(gcloud auth print-access-token)"
     - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/TOKEN --form value=$TOKEN > response.json"
     - "echo Token Generated Successfully"
+
+#Static code analysis
+test:
+  image: node:latest
+  stage: test
+  script:
+    # Run apigeelint
+    - npm install -g apigeelint
+    - apigeelint -f table.js --profile apigeex -s ./apiproxy
 
 # Deploy Proxy
 mvn-deploy-proxy:
