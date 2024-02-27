@@ -58,4 +58,4 @@ mvn-undeploy-proxy:
     - pwd
     - ls
   rules:
-  - if: $COUNT_FAILED_SCENARIOS -gt 0
+  - if: '$COUNT_FAILED_SCENARIOS > 0'
