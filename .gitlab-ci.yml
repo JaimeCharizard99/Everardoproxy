@@ -2,7 +2,7 @@ image: maven:latest
 
 stages:
     - auth
-    - test
+    - codeAnalysis
     - deploy
     - unitTest
 
@@ -23,9 +23,9 @@ gcp-authenticate:
     - "echo Token Generated Successfully"
 
 #Static code analysis
-test:
+static-code-analysis:
   image: node:latest
-  stage: test
+  stage: codeAnalysis
   script:
     # Run apigeelint
     - npm install -g apigeelint
@@ -34,20 +34,25 @@ test:
 # Deploy Proxy
 mvn-deploy-proxy:
     stage: deploy
-    needs: ["test","gcp-authenticate"]
+    needs: ["static-code-analysis","gcp-authenticate"]
     script:
         - "mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -DproxyName=$PROXY_NAME -Denv=$APIGEE_ENV -Dorg=$GCP_PROJECT_ID -Dtoken=$TOKEN"
 
 # Unit test with Cucuber.js and Gherkin
-mvn-unit-test:
+bdd-unit-test:
     image: node:latest
     stage: unitTest
     needs: ["mvn-deploy-proxy"]
     script:
-      - pwd
-      - ls
       - cd api_everardoproxy_mocks
       - npm run init-api
       - npm run test
       - export COUNT_FAILED=$(grep -o -i failed tests/features/resultados/cucumber_report.json| wc -l)
-      - echo $COUNT_FAILED
+      - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/COUNT_FAILED_SCENARIOS --form value=$COUNT_FAILED > response2.json"
+
+mvn-undeploy-proxy:
+    stage: deploy
+    needs: ["bdd-unit-test"]
+    script:
+      - pwd
+      - ls
