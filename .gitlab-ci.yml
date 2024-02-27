@@ -64,5 +64,13 @@ mvn-undeploy-proxy:
         gcloud config set project $GCP_PROJECT_ID
         gcloud config set account $GCP_SA
         gcloud auth login --cred-file=creds.json
+        gcloud apigee apis describe everardoproxy-v1 --format=json > describeResp.json
+        python3 -V
+        ls
+        export REVISION=$(python3 ./getPreviousProxyRevision.py describeResp.json)
+        echo $REVISION
+        echo "Undeploying latest revision due to failed scenarios in Unit Test Report"
         gcloud apigee apis undeploy --environment=$APIGEE_ENV --api=$PROXY_NAME
+        echo "Deploying previuos stable revision: $REVISION"
+        gcloud apigee apis deploy $REVISION --environment=$APIGEE_ENV --api=$PROXY_NAME
       fi
