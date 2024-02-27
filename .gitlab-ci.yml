@@ -71,3 +71,6 @@ mvn-undeploy-proxy:
         echo "=======Info: Deploying previuos stable revision: $REVISION"
         gcloud apigee apis deploy $REVISION --environment=$APIGEE_ENV --api=$PROXY_NAME
       fi
+      if [ $COUNT_FAILED_SCENARIOS == 0 ]; then 
+        echo "=======Info: Nothing to UNDEPLOY, due to SUCCESSFULLY result on Unit Test Report"
+      fi
