@@ -18,7 +18,7 @@ Feature:
     Scenario Outline: Obtener un saludo general desde el proxy everardoproxy/
                 
         When I GET `host`/everardoproxy
-        Then response code should be 200
+        Then response code should be 201
         And response body should be valid json
         And response body path $.message should be <message>
         Examples:

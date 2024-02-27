@@ -52,6 +52,7 @@ bdd-unit-test:
     - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/COUNT_FAILED_SCENARIOS --form value=$COUNT_FAILED > response2.json"
 
 mvn-undeploy-proxy:
+  image: "google/cloud-sdk:latest"
   stage: undeploy
   needs: ["bdd-unit-test"]
   script:
@@ -59,5 +60,12 @@ mvn-undeploy-proxy:
     - ls
     - |
       if [ $COUNT_FAILED_SCENARIOS -gt 0 ]; then 
-        echo "Variable is greather than zero"
+        export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GCP_SA_CRED)
+        echo ${GOOGLE_APPLICATION_CREDENTIALS} > creds.json
+        export GOOGLE_APPLICATION_CREDENTIALS=creds.json
+        gcloud config set project $GCP_PROJECT_ID
+        gcloud config set account $GCP_SA
+        gcloud auth login --cred-file=creds.json
+        gcloud apigee apis list
+
       fi
