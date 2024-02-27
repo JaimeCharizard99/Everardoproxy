@@ -57,4 +57,7 @@ mvn-undeploy-proxy:
   script:
     - pwd
     - ls
-    - if [ $COUNT_FAILED_SCENARIOS -gt 0 ]; then echo "Variable is greather than zero"
+    - |
+      if [ $COUNT_FAILED_SCENARIOS -gt 0 ]; then 
+        echo "Variable is greather than zero"
+      fi
