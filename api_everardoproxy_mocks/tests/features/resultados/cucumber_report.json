@@ -1,0 +1,263 @@
+[
+  {
+    "description": "    Yo como desarrollador de apis y microservicios, negocio me solicita crear una POC de Apigee, donde el proxy me devuelva un saludo personalizado si envio el parametro nombre o un saludo general si no envio el parametro.",
+    "keyword": "Feature",
+    "name": "",
+    "line": 4,
+    "id": "",
+    "tags": [],
+    "uri": "features\\everardoproxy.feature",
+    "elements": [
+      {
+        "id": ";obtener-un-saludo-personalizado-desde-el-proxy-everardoproxy/-enviando-un-nombre-como-parametro",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Obtener un saludo personalizado desde el proxy everardoproxy/ enviando un nombre como parametro",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "match": {
+              "location": "features\\support\\init.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "I GET `host`/everardoproxy?name=Ever",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:88"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 641000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "response code should be 200",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:164"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "response body should be valid json",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:159"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "response body path $.message should be Hi Ever!, Welcome to Apigee's world",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:197"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          }
+        ]
+      },
+      {
+        "id": ";obtener-un-saludo-personalizado-desde-el-proxy-everardoproxy/-enviando-un-nombre-como-parametro",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "Obtener un saludo personalizado desde el proxy everardoproxy/ enviando un nombre como parametro",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "match": {
+              "location": "features\\support\\init.js:6"
+            },
+            "result": {
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "I GET `host`/everardoproxy?name=Liliana",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:88"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 371000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "response code should be 200",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:164"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "response body should be valid json",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:159"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "response body path $.message should be Hi Liliana!, Welcome to Apigee's world",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:197"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          }
+        ]
+      },
+      {
+        "id": ";obtener-un-saludo-general-desde-el-proxy-everardoproxy/",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "Obtener un saludo general desde el proxy everardoproxy/",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "match": {
+              "location": "features\\support\\init.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "I GET `host`/everardoproxy",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:88"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 269000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "response code should be 201",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:164"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 7000000,
+              "error_message": "Error: stepContext: \ntestOutput: \n  success:  false\n  expected: 201\n  actual:   200\n  response: \n    statusCode: 200\n    headers: \n      cache-control:         no-cache\n      x-cloud-trace-context: 6a8fab3599073090e0f5b44b4a269220/8099251911248237200\n      x-forwarded-for:       187.221.171.141, 34.36.220.25,10.206.0.7\n      x-forwarded-proto:     https\n      x-request-id:          df157ed1-3191-496a-a7f1-45784dc37087\n      x-b3-traceid:          643028845d07ae8d7038dbd89046c8f2\n      x-b3-spanid:           7038dbd89046c8f2\n      x-b3-sampled:          0\n      content-type:          application/json\n      content-length:        65\n      date:                  Tue, 27 Feb 2024 03:14:23 GMT\n      via:                   1.1 google, 1.1 google\n      alt-svc:               h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000\n      connection:            close\n    body: \n      \"\"\"\n        {\n            \"message\":\"Hi Apigeek friend!, Welcome to Apigee's world\"\n        }\n      \"\"\"\n    at D:\\Documents_D\\ThinkCares\\CICD\\my-gitlab\\unit-test-wth-apimocker\\api_everardoproxy_mocks\\tests\\node_modules\\cucumber\\lib\\user_code_runner.js:95:19\n    at Generator.throw (<anonymous>)\n    at asyncGeneratorStep (D:\\Documents_D\\ThinkCares\\CICD\\my-gitlab\\unit-test-wth-apimocker\\api_everardoproxy_mocks\\tests\\node_modules\\cucumber\\lib\\user_code_runner.js:18:103)\n    at _throw (D:\\Documents_D\\ThinkCares\\CICD\\my-gitlab\\unit-test-wth-apimocker\\api_everardoproxy_mocks\\tests\\node_modules\\cucumber\\lib\\user_code_runner.js:20:291)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "response body should be valid json",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:159"
+            },
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "response body path $.message should be Hi Apigeek friend!, Welcome to Apigee's world",
+            "match": {
+              "location": "features\\step_definitions\\apickli-gherkin.js:197"
+            },
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

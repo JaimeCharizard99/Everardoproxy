@@ -1,0 +1,12 @@
+{
+  "name": "openapi",
+  "version": "1.0.0",
+  "description": "api template",
+  "scripts": {
+    "init-api": "npm run gulp && npm run install-dependencies",
+    "gulp": "npm install -g gulp",
+    "install-dependencies": "cd tests/ && npm install" ,
+    "test": "cd tests/ && gulp bdd",
+    "clean": "cd tests/ && rmdir /s /q node_modules"
+  }
+}
