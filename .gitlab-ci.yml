@@ -56,8 +56,6 @@ mvn-undeploy-proxy:
   stage: undeploy
   needs: ["bdd-unit-test"]
   script:
-    - pwd
-    - ls
     - |
       if [ $COUNT_FAILED_SCENARIOS -gt 0 ]; then 
         export GOOGLE_APPLICATION_CREDENTIALS=$(echo $GCP_SA_CRED)
@@ -66,6 +64,5 @@ mvn-undeploy-proxy:
         gcloud config set project $GCP_PROJECT_ID
         gcloud config set account $GCP_SA
         gcloud auth login --cred-file=creds.json
-        gcloud apigee apis list
-
+        gcloud apigee apis undeploy --environment=$APIGEE_ENV --api=$PROXY_NAME
       fi
