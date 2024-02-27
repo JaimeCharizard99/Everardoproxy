@@ -42,7 +42,7 @@ mvn-deploy-proxy:
 mvn-unit-test:
     image: node:latest
     stage: unitTest
-    needs: ["deploy"]
+    needs: ["mvn-deploy-proxy"]
     script:
       - pwd
       - ls
