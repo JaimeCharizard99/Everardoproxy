@@ -4,6 +4,7 @@ stages:
     - auth
     - test
     - deploy
+    - unitTest
 
 # Get token
 gcp-authenticate:
@@ -36,3 +37,17 @@ mvn-deploy-proxy:
     needs: ["test","gcp-authenticate"]
     script:
         - "mvn -Pgoogleapi -Pdeployonly install -Dapigee.config.options=create -DproxyName=$PROXY_NAME -Denv=$APIGEE_ENV -Dorg=$GCP_PROJECT_ID -Dtoken=$TOKEN"
+
+# Unit test with Cucuber.js and Gherkin
+mvn-unit-test:
+    image: node:latest
+    stage: unitTest
+    needs: ["deploy"]
+    script:
+      - pwd
+      - ls
+      - cd api_everardoproxy_mocks
+      - npm run init-api
+      - npm run test
+      - export COUNT_FAILED=$(grep -o -i failed tests/features/resultados/cucumber_report.json| wc -l)
+      - echo $COUNT_FAILED
