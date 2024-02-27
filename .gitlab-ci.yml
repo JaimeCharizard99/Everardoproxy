@@ -5,6 +5,7 @@ stages:
     - codeAnalysis
     - deploy
     - unitTest
+    - undeploy
 
 # Get token
 gcp-authenticate:
@@ -51,7 +52,7 @@ bdd-unit-test:
       - "curl --request PUT --header PRIVATE-TOKEN:$API_PAT https://gitlab.com/api/v4/projects/54316165/variables/COUNT_FAILED_SCENARIOS --form value=$COUNT_FAILED > response2.json"
 
 mvn-undeploy-proxy:
-    stage: deploy
+    stage: undeploy
     needs: ["bdd-unit-test"]
     script:
       - pwd
